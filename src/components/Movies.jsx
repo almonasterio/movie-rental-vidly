@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import MovieComponent from "./MovieComponent";
+import iconComponent from "./iconComponent";
+
 
 export default class Movies extends Component {
   constructor(){
@@ -12,11 +14,9 @@ export default class Movies extends Component {
   }
 
 deleteMovie(movieId){
-    console.log(movieId);
-    console.log(this);
-      let moviesUpdated = [...this.state.movies].filter(movie=>movie._id!==movieId);
+      let movies = [...this.state.movies].filter(movie=>movie._id!==movieId);
 
-      this.setState({movies:moviesUpdated})
+      this.setState({movies})
   }
 
   render() {
@@ -28,10 +28,10 @@ deleteMovie(movieId){
   }
 
   renderMovies(){
-      const allMovies= this.state.movies.map(e=><MovieComponent deleteMovie={this.deleteMovie} key={e._id} movie={e}></MovieComponent>)
+      const allMovies= this.state.movies.map(e=><MovieComponent deleteMovie={this.deleteMovie} key={e._id} movie={e}><iconComponent/></MovieComponent>)
 
     return this.state.movies.length? (
-      <div>
+      <React.Fragment>
       <h5>Showing {allMovies.length} movies in the database</h5>
       <table className="table">
           <thead>
@@ -48,7 +48,7 @@ deleteMovie(movieId){
            
           </tbody>
         </table>
-        </div>
+        </React.Fragment>
     ) : <h5>There are no movies in the database</h5>
   }
 }
